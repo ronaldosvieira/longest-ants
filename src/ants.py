@@ -11,13 +11,14 @@ class Colony:
 		V, E = self.V, self.E
 		ph = E.where(E.isnull(), 1 / E.count(axis = 1).sum())
 		fitness = E.where(E.isnull(), 1)
+
 		probs = ph * params['alpha'] + fitness * params['beta']
 
 		best_soln = (- float('inf'), [])
 
 		for i in range(params['max_iter']):
 			for k in range(params['ants']):
-				soln = list(np.random.choice(E.index.values))
+				soln = [1]
 
 				possible = probs.loc[soln[-1]]
 				possible = possible[~possible.index.isin(soln)]
