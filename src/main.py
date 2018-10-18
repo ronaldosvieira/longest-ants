@@ -18,4 +18,4 @@ edges = read_dataset('graph1')
 
 colony = ants.Colony(edges)
 
-colony.run(ants = 10, max_iter = 1, alpha = 1, beta = 1)
+colony.run(ants = 10, max_iter = 50, alpha = 1, beta = 1, evap = 0.05)
