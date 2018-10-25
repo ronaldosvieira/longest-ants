@@ -41,7 +41,9 @@ def main():
 
 	colony = ants.Colony(edges)
 
-	colony.run(**vars(args))
+	solutions = colony.run(**vars(args))
+
+	print(solutions[-1])
 
 if __name__ == '__main__':
 	try:

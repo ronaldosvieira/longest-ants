@@ -12,12 +12,16 @@ class Colony:
 		ph = E.where(E.isnull(), 1 / E.count(axis = 1).sum())
 		fitness = (E - E.min()) / (E.max() - E.min())
 
+		solutions = []
+
 		best_soln = (- float('inf'), [])
 
 		for i in range(params['max_iter']):
 			best_local_soln = (- float('inf'), [])
 
 			probs = ph ** params['alpha'] + fitness ** params['beta']
+
+			ants = []
 
 			for k in range(params['ants']):
 				soln = [1]
@@ -41,11 +45,16 @@ class Colony:
 				selected_edges = list(zip(soln, soln[1:]))
 				cost = E[E.index.isin(selected_edges)].sum()['weight']
 
+				ants.append((selected_edges, cost))
+
 				if cost > best_local_soln[0]:
 					best_local_soln = (cost, list(selected_edges))
 
 				if cost > best_soln[0]:
 					best_soln = (cost, list(selected_edges))
+
+			solutions.append(pd.DataFrame(ants, 
+				columns = ['soln', 'cost']))
 
 			in_local_best = ph.index.isin(best_local_soln[1])
 			in_global_best = ph.index.isin(best_soln[1])
@@ -54,4 +63,6 @@ class Colony:
 			ph[in_local_best | in_global_best] *= 1 + params['evap']
 
 			print(best_soln[0], best_local_soln[0])
-			print(ph.mean()['weight'], ph.max()['weight'], ph.min()['weight'])
+			print(probs.mean()['weight'], probs.max()['weight'], probs.min()['weight'])
+
+		return solutions
