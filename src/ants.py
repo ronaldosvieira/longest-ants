@@ -63,7 +63,9 @@ class Colony:
 			in_global_best = ph.index.isin(best_soln[1])
 
 			ph[~(in_local_best | in_global_best)] *= 1 - params['evap']
-			ph[in_local_best | in_global_best] *= 1 + params['evap']
+			#ph[in_local_best | in_global_best] *= 1 + params['evap']
+			ph[in_local_best] += 0.001 * best_local_soln[0]
+			ph[in_global_best] += 0.001 * best_soln[0]
 
 			print(best_soln[0], best_local_soln[0])
 			print(probs.mean()['weight'], probs.max()['weight'], probs.min()['weight'])
