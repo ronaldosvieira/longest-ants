@@ -17,7 +17,7 @@ class Colony:
 		for i in range(params['max_iter']):
 			best_local_soln = (- float('inf'), [])
 
-			probs = ph * params['alpha'] + fitness * params['beta']
+			probs = ph ** params['alpha'] + fitness ** params['beta']
 
 			for k in range(params['ants']):
 				soln = [1]
