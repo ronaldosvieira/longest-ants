@@ -44,4 +44,7 @@ def main():
 	colony.run(**vars(args))
 
 if __name__ == '__main__':
-	main()
+	try:
+		main()
+	except KeyboardInterrupt:
+		print("Stopping")
