@@ -40,7 +40,7 @@ class Colony:
 				while N not in probs.loc[soln[-1]].index:
 					soln.pop()
 
-				soln.append(100)
+				soln.append(N)
 
 				selected_edges = list(zip(soln, soln[1:]))
 				cost = E[E.index.isin(selected_edges)].sum()['weight']
