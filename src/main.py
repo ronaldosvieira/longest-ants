@@ -24,6 +24,8 @@ def get_args():
 		default = 50, help = "number of iterations of the algorithm")
 	parser.add_argument('--evap', '-ev', dest = 'evap', type = float, 
 		default = 0.05, help = "evaporation rate")
+	parser.add_argument('-q', dest = 'Q', type = float, 
+		default = 0.001, help = "Q parameter")
 	parser.add_argument('--alpha', '-a', dest = 'alpha', type = float, 
 		default = 1.0, help = "alpha parameter")
 	parser.add_argument('--beta', '-b', dest = 'beta', type = float, 
