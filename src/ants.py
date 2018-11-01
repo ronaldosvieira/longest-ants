@@ -10,7 +10,7 @@ class Colony:
 
 	def run(self, **params):
 		V, E, N = self.V, self.E, max(self.V)
-		ph = E.where(E.isnull(), 1 / E.count(axis = 1).sum())
+		ph = E.where(E.isnull(), 1)
 		fitness = E
 
 		solutions = []
