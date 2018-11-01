@@ -43,7 +43,7 @@ def main():
 
 	colony = ants.Colony(edges)
 
-	solutions = colony.run(**vars(args))
+	solutions, info = colony.run(**vars(args))
 
 	print(solutions[-1])
 

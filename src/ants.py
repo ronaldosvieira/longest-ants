@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from itertools import chain
+from collections import defaultdict
 
 class Colony:
 	def __init__(self, edges):
@@ -13,6 +14,7 @@ class Colony:
 		fitness = E
 
 		solutions = []
+		info = []
 
 		best_soln = (- float('inf'), [])
 
@@ -22,6 +24,7 @@ class Colony:
 			probs = ph ** params['alpha'] + fitness ** params['beta']
 
 			ants = []
+			repeated_edges = defaultdict(lambda: -1)
 
 			for k in range(params['ants']):
 				soln = [1]
@@ -45,6 +48,9 @@ class Colony:
 				selected_edges = list(zip(soln, soln[1:]))
 				cost = E[E.index.isin(selected_edges)].sum()['weight']
 
+				for edge in selected_edges:
+					repeated_edges[edge] += 1
+
 				ants.append((selected_edges, cost))
 
 				if cost > best_local_soln[0]:
@@ -56,6 +62,10 @@ class Colony:
 			solutions.append(pd.DataFrame(ants, 
 				columns = ['soln', 'cost']))
 
+			info.append({
+				'repeated_edges': sum(list(repeated_edges.values()))}
+			)
+
 			in_local_best = ph.index.isin(best_local_soln[1])
 			in_global_best = ph.index.isin(best_soln[1])
 
@@ -64,7 +74,7 @@ class Colony:
 			ph[in_local_best] += params['Q'] * best_local_soln[0]
 			ph[in_global_best] += params['Q'] * best_soln[0]
 
-			print(best_soln[0], best_local_soln[0])
+			print(best_soln[0], best_local_soln[0], solutions[-1]['cost'].mean())
 			print(probs.mean()['weight'], probs.max()['weight'], probs.min()['weight'])
 
-		return solutions
+		return solutions, info
