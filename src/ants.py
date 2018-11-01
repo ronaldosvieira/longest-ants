@@ -63,6 +63,9 @@ class Colony:
 				columns = ['soln', 'cost']))
 
 			info.append({
+				'best': solutions[-1]['cost'].max(),
+				'mean': solutions[-1]['cost'].mean(),
+				'worst': solutions[-1]['cost'].min(),
 				'repeated_edges': sum(list(repeated_edges.values()))}
 			)
 
@@ -70,7 +73,7 @@ class Colony:
 			in_global_best = ph.index.isin(best_soln[1])
 
 			ph *= 1 - params['evap']
-			#ph[in_local_best | in_global_best] *= 1 + params['evap']
+
 			ph[in_local_best] += params['Q'] * best_local_soln[0]
 			ph[in_global_best] += params['Q'] * best_soln[0]
 
