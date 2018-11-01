@@ -30,6 +30,8 @@ def get_args():
 		default = 1.0, help = "alpha parameter")
 	parser.add_argument('--beta', '-b', dest = 'beta', type = float, 
 		default = 1.0, help = "beta parameter")
+	parser.add_argument('--seed', '-s', dest = 'seed', type = int, 
+		default = None, help = "random seed to use")
 
 	try:
 		return parser.parse_args()

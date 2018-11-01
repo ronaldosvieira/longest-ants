@@ -9,6 +9,9 @@ class Colony:
 		self.E = edges
 
 	def run(self, **params):
+		if 'seed' in params:
+			np.random.seed(params['seed'])
+
 		V, E, N = self.V, self.E, max(self.V)
 		ph = E.where(E.isnull(), 1)
 		fitness = E
