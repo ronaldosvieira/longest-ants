@@ -10,7 +10,7 @@ class Colony:
 	def run(self, **params):
 		V, E, N = self.V, self.E, max(self.V)
 		ph = E.where(E.isnull(), 1 / E.count(axis = 1).sum())
-		fitness = (E - E.min()) / (E.max() - E.min())
+		fitness = E
 
 		solutions = []
 
@@ -18,9 +18,6 @@ class Colony:
 
 		for i in range(params['max_iter']):
 			best_local_soln = (- float('inf'), [])
-
-			ph = 2 * ph / ph.max()
-			fitness = 2 * fitness / fitness.max()
 
 			probs = ph ** params['alpha'] + fitness ** params['beta']
 
