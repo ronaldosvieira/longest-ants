@@ -49,6 +49,14 @@ def main():
 
 	print(solutions[-1])
 
+	best = list(map(lambda i: i['best'], info))
+	mean = zip(map(lambda i: i['mean'], info), map(lambda i: i['std'], info))
+	meanstd = list(map(lambda i: '{} +- {:.2f}'.format(*i), mean))
+	worst = list(map(lambda i: i['worst'], info))
+
+	print(pd.DataFrame(list(zip(best, worst, meanstd)), 
+		columns = ['best', 'worst', 'mean']))
+
 if __name__ == '__main__':
 	try:
 		main()
