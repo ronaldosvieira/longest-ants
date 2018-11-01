@@ -69,6 +69,7 @@ class Colony:
 				'best': solutions[-1]['cost'].max(),
 				'mean': solutions[-1]['cost'].mean(),
 				'std': solutions[-1]['cost'].std(),
+				'size': solutions[-1]['soln'].apply(len).mean() + 1,
 				'worst': solutions[-1]['cost'].min(),
 				'repeated_edges': sum(list(repeated_edges.values()))}
 			)
