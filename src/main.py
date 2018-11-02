@@ -47,16 +47,24 @@ def main():
 
 	solutions, info = colony.run(**vars(args))
 
-	print(solutions[-1])
-
 	best = list(map(lambda i: i['best'], info))
 	mean = zip(map(lambda i: i['mean'], info), map(lambda i: i['std'], info))
 	meanstd = list(map(lambda i: '{} +- {:.2f}'.format(*i), mean))
 	worst = list(map(lambda i: i['worst'], info))
 	size = list(map(lambda i: i['size'], info))
 
-	print(pd.DataFrame(list(zip(best, worst, meanstd, size)), 
-		columns = ['best', 'worst', 'mean', 'size']))
+	results = pd.DataFrame(list(zip(best, worst, meanstd, size)), 
+		columns = ['best', 'worst', 'mean', 'size'])
+	sols = pd.concat(solutions).sort_values('cost', ascending = False)
+
+	print(results)
+
+	filename = '_'.join([str(len(edges)), str(args.ants), 
+		str(len(solutions)), str(args.alpha), str(args.beta), 
+		str(args.evap), str(args.Q)])
+
+	results.to_csv('results/' + filename + '.csv', encoding = 'utf-8')
+	sols.to_csv('results/' + filename + '_sols.csv', encoding = 'utf-8')
 
 if __name__ == '__main__':
 	try:
