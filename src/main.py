@@ -45,19 +45,9 @@ def main():
 
 	colony = ants.Colony(edges)
 
-	solutions, info = colony.run(**vars(args))
-
-	best = list(map(lambda i: i['best'], info))
-	mean = zip(map(lambda i: i['mean'], info), map(lambda i: i['std'], info))
-	meanstd = list(map(lambda i: '{} +- {:.2f}'.format(*i), mean))
-	worst = list(map(lambda i: i['worst'], info))
-	size = list(map(lambda i: i['size'], info))
-
-	results = pd.DataFrame(list(zip(best, worst, meanstd, size)), 
-		columns = ['best', 'worst', 'mean', 'size'])
-
-	print(results.to_csv(encoding = 'utf-8'))
-
+	stats = colony.run(**vars(args))
+	
+	print(stats.loc[:, stats.columns != 'bsoln'].to_csv())
 if __name__ == '__main__':
 	try:
 		main()

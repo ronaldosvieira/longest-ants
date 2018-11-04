@@ -9,7 +9,10 @@ class Colony:
 		self.E = edges
 
 	def run(self, **params):
-		solutions, info = [], []
+		solutions = []
+		stats = pd.DataFrame(columns = ['best', 'worst', 'mean', 'std', 
+				'size', 'rep', 'bsoln'])
+
 		try:
 			if 'seed' in params:
 				np.random.seed(params['seed'])
@@ -64,14 +67,15 @@ class Colony:
 				solutions.append(pd.DataFrame(ants, 
 					columns = ['soln', 'cost']))
 
-				info.append({
+				stats = stats.append({
 					'best': solutions[-1]['cost'].max(),
+					'worst': solutions[-1]['cost'].min(),
 					'mean': solutions[-1]['cost'].mean(),
 					'std': solutions[-1]['cost'].std(),
 					'size': solutions[-1]['soln'].apply(len).mean() + 1,
-					'worst': solutions[-1]['cost'].min(),
-					'repeated_edges': sum(list(repeated_edges.values()))}
-				)
+					'rep': sum(list(repeated_edges.values())),
+					'bsoln': best_local_soln[1]
+				}, ignore_index = True)
 
 				in_local_best = ph.index.isin(best_local_soln[1])
 				in_global_best = ph.index.isin(best_soln[1])
@@ -83,4 +87,4 @@ class Colony:
 		except KeyboardInterrupt:
 			pass
 
-		return solutions, info
+		return stats
