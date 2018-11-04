@@ -55,16 +55,8 @@ def main():
 
 	results = pd.DataFrame(list(zip(best, worst, meanstd, size)), 
 		columns = ['best', 'worst', 'mean', 'size'])
-	sols = pd.concat(solutions).sort_values('cost', ascending = False)
 
-	print(results)
-
-	filename = '_'.join([str(len(edges)), str(args.ants), 
-		str(len(solutions)), str(args.alpha), str(args.beta), 
-		str(args.evap), str(args.Q)])
-
-	results.to_csv('results/' + filename + '.csv', encoding = 'utf-8')
-	sols.to_csv('results/' + filename + '_sols.csv', encoding = 'utf-8')
+	print(results.to_csv(encoding = 'utf-8'))
 
 if __name__ == '__main__':
 	try:

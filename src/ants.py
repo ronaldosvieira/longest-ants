@@ -9,10 +9,8 @@ class Colony:
 		self.E = edges
 
 	def run(self, **params):
+		solutions, info = [], []
 		try:
-			solutions = []
-			info = []
-
 			if 'seed' in params:
 				np.random.seed(params['seed'])
 
@@ -82,10 +80,7 @@ class Colony:
 
 				ph[in_local_best] += params['Q'] * best_local_soln[0]
 				ph[in_global_best] += params['Q'] * best_soln[0]
-
-				print(best_soln[0], best_local_soln[0], solutions[-1]['cost'].mean())
-				print(probs.mean()['weight'], probs.max()['weight'], probs.min()['weight'])
 		except KeyboardInterrupt:
-			print("Stopping")
+			pass
 
 		return solutions, info
