@@ -47,7 +47,7 @@ def main():
 
 	stats = colony.run(**vars(args))
 	
-	print(stats.loc[:, stats.columns != 'bsoln'].to_csv())
+	print(stats.loc[:, stats.columns != 'lbest'].to_csv())
 if __name__ == '__main__':
 	try:
 		main()
